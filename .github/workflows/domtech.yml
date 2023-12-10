@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main # Adjust this based on your default branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Adjust to your Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test # Run your tests here
+
+      - name: Deploy
+        # Add your deployment steps here (e.g., deploying to a hosting service like Netlify, AWS, etc.)
+        # Example: Using Netlify CLI to deploy
+        run: |
+          npm install -g netlify-cli
+          netlify login # Authenticate if required
+          netlify deploy --prod --dir=./build # Adjust directory if needed
